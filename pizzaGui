@@ -1,0 +1,293 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.GridLayout;
+import java.awt.event.*;
+import java.text.DecimalFormat;
+
+public class PizzaGui {
+
+    private JFrame mainFrame;
+    public JPanel crustPanel,cheesePanel,meatPanel,mainPanel,sizePanel,toppingPanel,buttonPanel;
+    private JRadioButton small,medium,large,smallGluten;
+    private JRadioButton thinCrust,normCrust,pan;
+    public JButton order,reset;
+    private JCheckBox anchovies,chicken,chorizo,meatballs,sal,sausage,pepp,spinach,green,jalapenos,broccoli,olives,mushroom,pineapples,mozz,cheddar,parm,gorg,extra,vegan,provolone,soda;
+    private JLabel head,price,crust,size,veggies,meats,cheese;
+    static JComboBox pizzaAmount;
+
+    public PizzaGui() {
+        orderGui();
+    }
+
+    public static void main(String[] args) {
+        PizzaGui pizza = new PizzaGui();
+        pizza.guiCalc();
+    }
+
+
+    public void orderGui() {
+        mainFrame = new JFrame("Pizza!");
+
+        mainFrame.setSize(400, 600);
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        mainPanel = new JPanel(new GridLayout(7, 1));
+        sizePanel = new JPanel(new GridLayout(2, 3));
+        crustPanel = new JPanel(new GridLayout(1, 3));
+        toppingPanel = new JPanel(new GridLayout(2, 5));
+        cheesePanel = new JPanel(new GridLayout(2, 5));
+        meatPanel = new JPanel(new GridLayout(2, 5));
+        buttonPanel = new JPanel(new GridLayout(2, 1));
+
+        mainFrame.add(mainPanel);
+        mainFrame.setVisible(true);
+
+    }
+
+    public void guiCalc() {
+        head = new JLabel("The 24000 Pizza Shop",JLabel.CENTER);
+        price = new JLabel("Price : ");
+        size = new JLabel("Size",JLabel.CENTER);
+        crust = new JLabel("Crust",JLabel.CENTER);
+        veggies = new JLabel("Veggies ($0.75) each",JLabel.CENTER);
+        meats = new JLabel("Meats",JLabel.CENTER);
+        cheese = new JLabel("Cheese cost varies",JLabel.CENTER);
+
+        head.setForeground(Color.RED);
+        mainPanel.add(head);
+
+        small = new JRadioButton("Small ($4.99)");
+        medium = new JRadioButton("Medium ($7.99)");
+        large = new JRadioButton("Large ($11.99)");
+        smallGluten = new JRadioButton("Small Gluten-Free Pizza ($7.99)");
+
+        sizePanel.add(small);
+        sizePanel.add(medium);
+        sizePanel.add(large);
+        sizePanel.add(smallGluten);
+
+        ButtonGroup sizeGroup = new ButtonGroup();
+        sizeGroup.add(small);
+        sizeGroup.add(medium);
+        sizeGroup.add(large);
+        sizeGroup.add(smallGluten);
+
+        mainPanel.add(sizePanel);
+
+        thinCrust = new JRadioButton("Thin Crust ($1.00)");
+        normCrust = new JRadioButton("Normal Crust ($0.00)");
+        pan = new JRadioButton("Pan Pizza ($1.50)");
+
+        sizePanel.add(thinCrust);
+        sizePanel.add(normCrust);
+        sizePanel.add(pan);
+
+        ButtonGroup crustGroup = new ButtonGroup();
+        crustGroup.add(small);
+        crustGroup.add(medium);
+        crustGroup.add(large);
+
+        anchovies = new JCheckBox("Anchovies");
+        chicken = new JCheckBox("Chicken");
+        chorizo = new JCheckBox("Chorizo");
+        meatballs = new JCheckBox("Meatballs");
+        sausage = new JCheckBox("Sausage");
+        pepp = new JCheckBox("Pepperoni");
+        sal = new JCheckBox("Salami");
+
+
+        spinach = new JCheckBox("Spinach");
+        green = new JCheckBox("Green Pepper");
+        jalapenos = new JCheckBox("Jalapenos");
+        broccoli = new JCheckBox("Broccoli");
+        olives = new JCheckBox("Olives");
+        mushroom = new JCheckBox("Mushrooms");
+        pineapples = new JCheckBox("Pineapples");
+
+
+        mozz = new JCheckBox("Mozzarella");
+        cheddar = new JCheckBox("Cheddar");
+        parm = new JCheckBox("Parmesan");
+        gorg = new JCheckBox("Gorgonzola");
+        provolone = new JCheckBox("Provolone");
+        vegan = new JCheckBox("Vegan Cheese (No dairy/gluten)");
+        extra = new JCheckBox("Extra of the cheeses you pick");
+
+        meatPanel.add(anchovies);
+        meatPanel.add(chicken);
+        meatPanel.add(chorizo);
+        meatPanel.add(meatballs);
+        meatPanel.add(sausage);
+        meatPanel.add(pepp);
+        meatPanel.add(sal);
+
+        mainPanel.add(meatPanel);
+
+        toppingPanel.add(spinach);
+        toppingPanel.add(green);
+        toppingPanel.add(jalapenos);
+        toppingPanel.add(broccoli);
+        toppingPanel.add(olives);
+        toppingPanel.add(mushroom);
+        toppingPanel.add(pineapples);
+
+        mainPanel.add(toppingPanel);
+
+        cheesePanel.add(mozz);
+        cheesePanel.add(cheddar);
+        cheesePanel.add(parm);
+        cheesePanel.add(gorg);
+        cheesePanel.add(provolone);
+        cheesePanel.add(vegan);
+        cheesePanel.add(extra);
+
+        mainPanel.add(cheesePanel);
+
+        String [] pizzaAmt = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+        pizzaAmount = new JComboBox(pizzaAmt);
+        pizzaAmount.setSelectedIndex(0);
+        pizzaAmount.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+
+            }
+        });
+
+        ActionListener pizzaAction = new MyListener();
+
+
+        order = new JButton("Order ");
+        order.setPreferredSize(new Dimension(10, 5));
+        order.addActionListener(pizzaAction);
+
+        reset = new JButton("Reset");
+        reset.addActionListener(pizzaAction);
+
+        buttonPanel.add(order);
+        buttonPanel.add(reset);
+
+        mainPanel.add(buttonPanel);
+
+        mainPanel.add(price);
+
+        mainFrame.add(mainPanel);
+
+        mainFrame.setVisible(true);
+
+    }
+
+    class MyListener implements ActionListener {
+        public void actionPerformed(ActionEvent userActions) {
+            double cost = 0;
+            if(userActions.getSource() == order) {
+
+                if( small.isSelected() == true)
+                    cost += 4.99;
+                if( medium.isSelected() == true)
+                    cost += 7.99;
+                if(large.isSelected() == true)
+                    cost += 11.99;
+                if(smallGluten.isSelected() == true)
+                    cost += 7.99;
+
+                if(thinCrust.isSelected() == true)
+                    cost += 1;
+                if(pan.isSelected() == true)
+                    cost += 1.50;
+
+
+                //adding $0.75 for each of the selected Toppings
+                if(anchovies.isSelected() == true)
+                    cost += 1;
+                if(chicken.isSelected() == true)
+                    cost += 1;
+                if(chorizo.isSelected() == true)
+                    cost += 1;
+                if(meatballs.isSelected() == true)
+                    cost += 1;
+                if(sausage.isSelected() == true)
+                    cost += 1;
+                if(pepp.isSelected() == true)
+                    cost += 1;
+                if(sal.isSelected() == true)
+                    cost += 1;
+
+                if(spinach.isSelected() == true)
+                    cost += 0.75;
+                if(green.isSelected() == true)
+                    cost += 0.75;
+                if(jalapenos.isSelected() == true)
+                    cost += 0.75;
+                if(broccoli.isSelected() == true)
+                    cost += 0.75;
+                if(olives.isSelected() == true)
+                    cost += 0.75;
+                if(mushroom.isSelected() == true)
+                    cost += 0.75;
+                if(pineapples.isSelected() == true)
+                    cost += 0.75;
+
+                if(mozz.isSelected() == true)
+                    cost += 0.35;
+                if(cheddar.isSelected() == true)
+                    cost += 0.35;
+                if(parm.isSelected() == true)
+                    cost += 0.35;
+                if(gorg.isSelected() == true)
+                    cost += 0.35;
+                if(provolone.isSelected() == true)
+                    cost += 0.35;
+                if(vegan.isSelected() == true)
+                    cost += 0.75;
+                if(extra.isSelected() == true)
+                    cost += 1;
+
+                double tax = (cost*0.07);
+
+                DecimalFormat dec = new DecimalFormat("#.##");
+                String costTotal = dec.format(cost+tax);
+                price.setText("Price : $"+costTotal);
+                JOptionPane.showMessageDialog(null, "Total: $" + costTotal);
+
+            }
+
+            else if(userActions.getSource() == reset) {
+                small.setSelected(false);
+                medium.setSelected(false);
+                large.setSelected(false);
+                smallGluten.setSelected(false);
+
+                thinCrust.setSelected(false);
+                pan.setSelected(false);
+                normCrust.setSelected(false);
+
+
+                anchovies.setSelected(false);
+                chicken.setSelected(false);
+                chorizo.setSelected(false);
+                meatballs.setSelected(false);
+                sausage.setSelected(false);
+                pepp.setSelected(false);
+                sal.setSelected(false);
+
+                spinach.setSelected(false);
+                green.setSelected(false);
+                jalapenos.setSelected(false);
+                broccoli.setSelected(false);
+                olives.setSelected(false);
+                mushroom.setSelected(false);
+                pineapples.setSelected(false);
+
+                mozz.setSelected(false);
+                cheddar.setSelected(false);
+                parm.setSelected(false);
+                gorg.setSelected(false);
+                provolone.setSelected(false);
+                vegan.setSelected(false);
+
+            }
+
+        }
+    }
+
+}
